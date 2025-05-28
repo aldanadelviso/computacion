@@ -1,58 +1,46 @@
-let rectangulos = [];
+let gotas = [];
 let filas = 28;
 let columnas = 18;
-let anchoBase= 8;
-let altoBase= 12;
-let redondeo= 4;
+let anchoBase= 10;
+let altoBase= 10;
+let lluviaActiva=false;
+let gotasImagenes = [];
 
-let mic, amplitude;
-let micStarted = false;
-let umbralVolumen = 0.004;
+function preload() {
+  for (let i = 0; i < 4; i++) {
+    gotasImagenes[0]= loadImage("imagenes/trazo0"+i+".png");
+  }
+}
 
 function setup() {
   createCanvas(400, 500);
   rectMode(CENTER);
-  amplitude = new p5.Amplitude();
-  inicializarRectangulos();
+  inicializargotas();
 }
 
 function draw() {
   dibujarFondo();
   noStroke();
-  if (!micStarted) {
-    fill(255);
-    textAlign(CENTER, CENTER);
-    textSize(18);
-    text("Haz clic para activar el micrófono", width / 2, height / 2);
-    return;
+  if (mouseIsPressed) {
+    lluviaActiva=true;
+  } else {
+   lluviaActiva=false;
   }
-
-  let nivelVolumen = amplitude.getLevel();
-  let lluviaActiva = nivelVolumen > umbralVolumen;
-  dibujarRectangulos(lluviaActiva);
-  
-    // Opcional: mostrar el nivel actual
-  fill(255);
-  textSize(12);
-  text(`Volumen: ${nivelVolumen.toFixed(3)}`, 10, height - 10);
-  
+  dibujarGotas(lluviaActiva);
 }
 
-//Funcion para crear los rectangulos y guardarlos en el arreglo para luego dibujarlos.
-function inicializarRectangulos() {
+//Funcion para crear los gotas y guardarlos en el arreglo para luego dibujarlos.
+function inicializargotas() {
   for (let fila = 0; fila < filas; fila++) {
     for (let columna = 0; columna < columnas; columna++) {
       let x = columna * (width / columnas) + random(-6, 6);
       let y = fila * (height / filas) + random(-6, 6);
-      let angulo = random(-PI / 10, PI / 10);
-      let colorBase = color(255, 240, 240);
-      let colorAlternativo = color(150 + random(-20, 10), 40 + random(0, 20), 40 + random(0, 20));
-      let mezcla = random(0.05, 0.4);
-      let colorFinal = lerpColor(colorBase, colorAlternativo, mezcla);
-      colorFinal.setAlpha(random(150, 220));
-      let velocidadY= random(0.5, 1.5);
-      let rectangulo= new Rectangulo(x, y, angulo, colorFinal, anchoBase, altoBase, redondeo, velocidadY);
-      rectangulos.push(rectangulo);
+      let velocidadY= random(1.5, 3);
+      let indice= int(random(0,3));
+      let tinte= random(75, 100);
+      let gota= new Gota(x, y, anchoBase, altoBase, velocidadY, tinte);
+      gota.imagen= gotasImagenes[indice];
+      gotas.push(gota); 
     }
   }
 }
@@ -68,26 +56,15 @@ function dibujarFondo(){
   }
 }
 
-//Funcion para hacer aparecer los rectangulos
-function dibujarRectangulos(lluviaActiva){
-  for (let r of rectangulos) {
+//Funcion para hacer aparecer los gotas
+function dibujarGotas(lluviaActiva){
+  for (let g of gotas) {
     if (lluviaActiva) {
-      r.y += r.velocidadY;
-      if (r.y > height + r.alto) {
-        r.y = -r.alto; // reaparece arriba
+      g.y += g.velocidadY;
+      if (g.y > height + g.alto) {
+        g.y = -g.alto; // reaparece arriba
       }
     }
-    r.dibujar();
-  }
-}
-
-function mousePressed() {
-  if (!micStarted) {
-    mic = new p5.AudioIn();
-    mic.start(() => {
-      amplitude.setInput(mic);
-      micStarted = true;
-      console.log("Micrófono activado");
-    });
+    g.dibujar();
   }
 }
