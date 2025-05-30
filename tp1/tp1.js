@@ -106,7 +106,6 @@ function dibujarLluviaHaciaAbajo(){
 
 function dibujarLluviaHaciaCostado(angulo){
   for (let g of gotas) {
-      let angulo = 
       g.x += sin(angulo) * g.velocidadY;
       g.y += cos(angulo) * g.velocidadY;
       g.y += g.velocidadY;
