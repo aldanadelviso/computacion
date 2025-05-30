@@ -5,7 +5,9 @@ class Gota {
     this.ancho = ancho;
     this.alto = alto;
     this.velocidadY = velocidadY;
-    this.tinte=tinte;
+    this.tinte= tinte;
+    this.xOriginal = x;
+    this.yOriginal= y;
     this.imagen= null;
   }
 
@@ -14,5 +16,10 @@ class Gota {
       tint(255, this.tinte);
       image(this.imagen, this.x, this.y, this.ancho, this.alto);
     }
+  }
+
+  posicionOriginal(){
+    this.x = this.xOriginal;
+    this.y = this.yOriginal;
   }
 }
