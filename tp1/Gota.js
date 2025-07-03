@@ -11,10 +11,16 @@ class Gota {
     this.imagen= null;
   }
 
-  dibujar() {
+  dibujar(temblor) {
     if (this.imagen){
       tint(255, this.tinte);
-      image(this.imagen, this.x, this.y, this.ancho, this.alto);
+      let x= this.x;
+      let y= this.y;
+      if(temblor){
+        x=random(this.x-2, this.x);
+        y=random(this.y-2, this.y);
+      }
+      image(this.imagen, x, y, this.ancho, this.alto);
     }
   }
 

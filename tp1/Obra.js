@@ -6,7 +6,7 @@ class Obra {
     this.gotasImagenes = gotasImagenes;
     this.gotas = [];
     this.columnas = Math.floor(width / (altoBase + espacio)) + 2;
-    this.filas = Math.floor(height / (anchoBase + espacio));
+    this.filas = Math.floor(height / (anchoBase + espacio)) + 2;
     this.inicializarGotas();
   }
 
@@ -27,11 +27,37 @@ class Obra {
   }
 
   dibujarFondo() {
+    background(255);
     for (let y = 0; y < height; y++) {
       let inter = map(y, 0, height, 0, 1);
       let c = lerpColor(color(100, 0, 0), color(255, 240, 230), inter);
       stroke(c);
       line(0, y, width, y);
+    }
+  }
+  
+  dibujarFondoOnda(alturaOnda){
+    if(alturaOnda) {
+      let inicioX = 0;
+      let finX = width;
+
+      for (let x = 0; x < width; x++) {
+        let yLimite;
+
+        if (x >= inicioX && x <= finX) {
+          let t = map(x, inicioX, finX, 0, PI);
+          let onda = sin(t) * 20;
+          yLimite = height - alturaOnda - onda;
+        } else {
+          yLimite = height - alturaOnda;
+        }
+
+        if (yLimite < height) {
+          let c = color(100, 0, 0);
+          stroke(c);
+          line(x, yLimite, x, height);
+        }
+      }
     }
   }
 
@@ -41,9 +67,9 @@ class Obra {
     }
   }
 
-  dibujarGotas() {
+  dibujarGotas(temblor) {
     for (let g of this.gotas) {
-      g.dibujar();
+      g.dibujar(temblor);
     }
   }
 
