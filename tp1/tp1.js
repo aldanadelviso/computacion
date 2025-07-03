@@ -11,7 +11,7 @@ let velocidadSubida = 10;
 let ascendiendo= true;
 
 let AMP_MIN = 0.001; // umbral de ruido de fondo
-let AMP_MAX = 0.15; // umbral superior, amplitud másxima del sonido de entrada
+let AMP_MAX = 0.15; // umbral superior, amplitud máxima del sonido de entrada
 let FREC_MIN = 120; // frecuencia más baja que se va a cantar
 let FREC_MAX = 270; // frecuencia más alta
 let amortiguacion = 0.9; //calibrar el factor (porcentaje) de amortiguación (0 = nada amortiguado || 1 = todo amoritiguado)
@@ -107,7 +107,7 @@ function getPitch() {
 }
 
 function esVozGrave(){
-    return frec < 0.009 ;
+    return frec < 0.01 ;
 }
 
 function esVozAguda(){
@@ -165,8 +165,4 @@ function iniciarLluvia(vel){
     } else {
       obra.lluviaHaciaCostado(-PI / 10, intensidad);
     }
-}
-
-function temblar(){
-
 }
