@@ -15,12 +15,13 @@ class Obra {
       for (let columna = 0; columna < this.columnas; columna++) {
         let x = columna * (this.anchoBase + this.espacio);
         let y = fila * (this.altoBase + this.espacio);
+        if (columna % 2 === 0) {
+            y=y+5;
+        }
         let velocidadY = random(3, 5);
-        let indice = int(random(0, this.gotasImagenes.length));
+        let indiceImagen = int(random(0, this.gotasImagenes.length));
         let tinte = random(75, 100);
-
-        let gota = new Gota(x, y, this.anchoBase, this.altoBase, velocidadY, tinte);
-        gota.imagen = this.gotasImagenes[indice];
+        let gota = new Gota(x, y, this.anchoBase, this.altoBase, velocidadY, tinte, indiceImagen, columna, fila);
         this.gotas.push(gota);
       }
     }
@@ -69,7 +70,7 @@ class Obra {
 
   dibujarGotas(temblor) {
     for (let g of this.gotas) {
-      g.dibujar(temblor);
+      g.dibujar(temblor, this.gotasImagenes);
     }
   }
 
@@ -79,7 +80,7 @@ class Obra {
       if (g.y > height - g.alto) {
         g.y = -g.alto;
       }
-      g.dibujar();
+      g.dibujar(false, this.gotasImagenes);
     }
   }
 
@@ -97,7 +98,7 @@ class Obra {
         g.y -= cos(angulo) * 100;
       }
 
-      g.dibujar();
+      g.dibujar(false, this.gotasImagenes);
     }
   }
 }

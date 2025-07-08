@@ -64,10 +64,6 @@ function draw() {
   amp = gestorAmp.filtrada; // cargo en mi variable amp la señal ya filtrada/amortiguada que me devuelve el gestor
   frec = gestorFrec.filtrada;  // cargo en mi variable frec la señal ya filtrada/amortiguada que me devuelve el gestor
   haySonido = amp > 0.1; // Condición que definie true o false a la variable. Si superar el límite inferior del piso que nos devuelve el gestor 
-
-  let empezoElSonido = !antesHabiaSonido && haySonido; //EVENTO:  empezó el sonido si antes no habia sonido y ahora hay sonido;
-  let terminoElSonido = !haySonido && antesHabiaSonido; // EVNETO: terminó el sonido si antes  habia sonido y ahora no hay sonido;
-  let tam = map(amp, 0, 1, 2, 100); // mapeo la amplitud (filtrada x el gestor) que me devuelve el gestor normalizada entre 0 y 1 a dos valores de tamaño
   let vel = map(frec, 0, 1, 0, 15); // mapeo la freucunca (filtrada x el gestor) de la misma manera
 
   if (haySonido) {
