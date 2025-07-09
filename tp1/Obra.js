@@ -1,9 +1,10 @@
 class Obra {
-  constructor(anchoBase, altoBase, espacio, gotasImagenes) {
+  constructor(anchoBase, altoBase, espacio, gotasImagenes, imagenMovediza) {
     this.anchoBase = anchoBase;
     this.altoBase = altoBase;
     this.espacio = espacio;
     this.gotasImagenes = gotasImagenes;
+    this.imagenMovediza = imagenMovediza;
     this.gotas = [];
     this.columnas = Math.floor(width / (altoBase + espacio)) + 2;
     this.filas = Math.floor(height / (anchoBase + espacio)) + 2;
@@ -59,6 +60,16 @@ class Obra {
           line(x, yLimite, x, height);
         }
       }
+    }
+  }
+
+  dibujarFondoMovedizo(tiempo){
+    let desplazamiento = sin(tiempo) * 500;
+    for (let y = 0; y < height; y++) {
+      let inter = map(y + desplazamiento, 0, height, 0, 1);
+      let c = lerpColor(color(100, 0, 0), color(255, 240, 230), constrain(inter, 0, 1));
+      stroke(c);
+      line(0, y, width, y);
     }
   }
 

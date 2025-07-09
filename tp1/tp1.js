@@ -9,6 +9,8 @@ let obra;
 let alturaOnda = 0;
 let velocidadSubida = 10;
 let ascendiendo= true;
+let imagenMovediza;
+let tiempo = 0;
 
 let AMP_MIN = 0.001; // umbral de ruido de fondo
 let AMP_MAX = 0.15; // umbral superior, amplitud máxima del sonido de entrada
@@ -41,12 +43,13 @@ function preload() {
   for (let i = 0; i < 4; i++) {
     gotasImagenes[i] = loadImage("imagenes/trazo0" + i + ".png");
   }
+  imagenMovediza= loadImage("imagenes/fondoMovedizo.jpeg");
 }
 
 function setup() {
   createCanvas(400, 500);
   imageMode(CENTER);
-  obra = new Obra(anchoBase, altoBase, espacio, gotasImagenes);
+  obra = new Obra(anchoBase, altoBase, espacio, gotasImagenes, imagenMovediza);
   audioContext = getAudioContext();
   mic = new p5.AudioIn();
   mic.start(startPitch);
@@ -78,7 +81,6 @@ function draw() {
   } else {
     finalizarEfectos();
   }
-
   obra.dibujarGotas(temblor);
 }
 
@@ -103,7 +105,7 @@ function getPitch() {
 }
 
 function esVozGrave(){
-    return frec < 0.01 ;
+    return frec < 0.1 ;
 }
 
 function esVozAguda(){
@@ -122,7 +124,9 @@ function iniciarOnda() {
   if(alturaOnda<=0){
     finalizarEfectoOnda();
   }
-  obra.dibujarFondoOnda(alturaOnda);
+  //obra.dibujarFondoOnda(alturaOnda);
+  obra.dibujarFondoMovedizo(tiempo);
+  tiempo += 0.1;
 }
 
 function finalizarEfectoLluvia() {
