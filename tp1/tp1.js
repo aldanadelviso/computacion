@@ -6,10 +6,6 @@ let tiempoInicio;
 let tiempoLimiteIzq = 3000;
 let tiempoLimiteDer = 6000;
 let obra;
-let alturaOnda = 0;
-let velocidadSubida = 10;
-let ascendiendo= true;
-let imagenMovediza;
 let tiempo = 0;
 
 let AMP_MIN = 0.001; // umbral de ruido de fondo
@@ -17,39 +13,31 @@ let AMP_MAX = 0.15; // umbral superior, amplitud máxima del sonido de entrada
 let FREC_MIN = 120; // frecuencia más baja que se va a cantar
 let FREC_MAX = 270; // frecuencia más alta
 let amortiguacion = 0.9; //calibrar el factor (porcentaje) de amortiguación (0 = nada amortiguado || 1 = todo amoritiguado)
-let monitor = false; 
+
 //------Variables de sonido
 let mic; // variable para cargar la entrada de audio
-
 let ampCruda; // variable para almacenar la amplitud del sonido de entrada SIN PROCESAR / DIRECTA DEL MIC
 let amp; // variable para almacenar la amplitud del sonido de entrada YA FILTRADA/ AMORTIGUADA x el gestor
-
 let frecCruda; // variable para cargar la frecuencia cruda/directa, sin procesar
 let frec; // variable para cargar la frecuencia procesada x el gestor
-
 let pitch; // objeto de ML que carga y procesa todos los datos de frecuencia
 let audioContext;
 const pichModel = 'https://cdn.jsdelivr.net/gh/ml5js/ml5-data-and-models/models/pitch-detection/crepe/'; // modelo entrenado para reconocer frecuencia
-
 let gestorSenial; // declarando un gestor de señal para amortitguar, suavizar o filtrar la señal de amplitud
 let gestorFrec;
-
 let haySonido = false; // ESTADO
-let antesHabiaSonido = false; //ESTADO
-
 let temblor=false;
 
 function preload() {
   for (let i = 0; i < 4; i++) {
     gotasImagenes[i] = loadImage("imagenes/trazo0" + i + ".png");
   }
-  imagenMovediza= loadImage("imagenes/fondoMovedizo.jpeg");
 }
 
 function setup() {
   createCanvas(400, 500);
   imageMode(CENTER);
-  obra = new Obra(anchoBase, altoBase, espacio, gotasImagenes, imagenMovediza);
+  obra = new Obra(anchoBase, altoBase, espacio, gotasImagenes);
   audioContext = getAudioContext();
   mic = new p5.AudioIn();
   mic.start(startPitch);
@@ -105,7 +93,7 @@ function getPitch() {
 }
 
 function esVozGrave(){
-    return frec < 0.1 ;
+    return frec < 0.2 ;
 }
 
 function esVozAguda(){
@@ -115,16 +103,6 @@ function esVozAguda(){
 function iniciarOnda() {
   finalizarEfectoLluvia();
   finalizarEfectoTemblor();
-  if (alturaOnda < height && ascendiendo){
-    alturaOnda += velocidadSubida;
-  } else{
-    ascendiendo=false;
-    alturaOnda -= velocidadSubida;
-  }
-  if(alturaOnda<=0){
-    finalizarEfectoOnda();
-  }
-  //obra.dibujarFondoOnda(alturaOnda);
   obra.dibujarFondoMovedizo(tiempo);
   tiempo += 0.1;
 }
@@ -134,8 +112,7 @@ function finalizarEfectoLluvia() {
 }
 
 function finalizarEfectoOnda(){
-    ascendiendo=true;
-    alturaOnda=0;
+    tiempo=0;
 }
 
 function finalizarEfectoTemblor(){

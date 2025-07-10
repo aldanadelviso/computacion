@@ -2,10 +2,7 @@
 let altoGestor = 100;
 let anchoGestor = 400;
 
-
-
 class GestorSenial{
-
 
 	//----------------------------------------
 
@@ -50,42 +47,4 @@ class GestorSenial{
 		this.cargado = max( this.cargado , this.puntero );
 
 	}
-	//----------------------------------------
-
-	dibujar( x_ , y_ ){
-
-		push();
-		fill(0);
-		stroke(255);
-		rect( x_ , y_ , anchoGestor , altoGestor );
-
-		//console.log( this.cargado );
-
-		for( let i=1 ; i<this.cargado ; i++ ){
-			let altura1 = map( this.mapeada[i-1] , 0.0 , 1.0 , y_+altoGestor , y_ );
-			let altura2 = map( this.mapeada[i] , 0.0 , 1.0 , y_+altoGestor , y_ );
-
-			stroke(255);
-			line( x_+i-1 , altura1 , x_+i , altura2 );
-
-			altura1 = map( this.histFiltrada[i-1] , 0.0 , 1.0 , y_+altoGestor , y_ );
-			altura2 = map( this.histFiltrada[i] , 0.0 , 1.0 , y_+altoGestor , y_ );
-
-			stroke(0,255,0);
-			line( x_+i-1 , altura1 , x_+i , altura2 );
-
-			if( this.dibujarDerivada ){
-				altura1 = map( this.histDerivada[i-1] , -1.0 , 1.0 , y_+altoGestor , y_ );
-				altura2 = map( this.histDerivada[i] , -1.0 , 1.0 , y_+altoGestor , y_ );
-
-				stroke(255,255,0);
-				line( x_+i-1 , altura1 , x_+i , altura2 );	
-			}
-			
-		}
-		stroke( 255 , 0 , 0 );
-		line( x_+this.puntero , y_ , x_+this.puntero , y_+altoGestor );
-		pop();
-	}
-	//----------------------------------------
 }

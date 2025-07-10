@@ -1,10 +1,9 @@
 class Obra {
-  constructor(anchoBase, altoBase, espacio, gotasImagenes, imagenMovediza) {
+  constructor(anchoBase, altoBase, espacio, gotasImagenes) {
     this.anchoBase = anchoBase;
     this.altoBase = altoBase;
     this.espacio = espacio;
     this.gotasImagenes = gotasImagenes;
-    this.imagenMovediza = imagenMovediza;
     this.gotas = [];
     this.columnas = Math.floor(width / (altoBase + espacio)) + 2;
     this.filas = Math.floor(height / (anchoBase + espacio)) + 2;
@@ -35,31 +34,6 @@ class Obra {
       let c = lerpColor(color(100, 0, 0), color(255, 240, 230), inter);
       stroke(c);
       line(0, y, width, y);
-    }
-  }
-  
-  dibujarFondoOnda(alturaOnda){
-    if(alturaOnda) {
-      let inicioX = 0;
-      let finX = width;
-
-      for (let x = 0; x < width; x++) {
-        let yLimite;
-
-        if (x >= inicioX && x <= finX) {
-          let t = map(x, inicioX, finX, 0, PI);
-          let onda = sin(t) * 20;
-          yLimite = height - alturaOnda - onda;
-        } else {
-          yLimite = height - alturaOnda;
-        }
-
-        if (yLimite < height) {
-          let c = color(100, 0, 0);
-          stroke(c);
-          line(x, yLimite, x, height);
-        }
-      }
     }
   }
 
