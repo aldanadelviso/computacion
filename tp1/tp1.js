@@ -60,6 +60,7 @@ function draw() {
   if (haySonido) {
     if(esVozGrave()){
       iniciarOnda();
+      temblor=true;
     } else if (esVozAguda()) {
       iniciarLluvia(vel);
     }else{
@@ -102,7 +103,6 @@ function esVozAguda(){
 
 function iniciarOnda() {
   finalizarEfectoLluvia();
-  finalizarEfectoTemblor();
   obra.dibujarFondoMovedizo(tiempo);
   tiempo += 0.1;
 }

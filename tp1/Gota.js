@@ -19,7 +19,7 @@ class Gota {
     let y= this.y;
     if (temblor) {
       let escala = 0.2;
-      let t = frameCount * 0.01;
+      let t = frameCount * 0.5;
       let offsetX = map(noise(this.columna * escala, this.fila * escala, t), 0, 1, -10, 10);
       let offsetY = map(noise(this.columna * escala, this.fila * escala, t + 100), 0, 1, -10, 10);
       x += offsetX;
